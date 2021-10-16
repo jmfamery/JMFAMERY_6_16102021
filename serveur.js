@@ -1,7 +1,7 @@
 const http = require('http');
-const app = require('./app');
+const application = require('./applications');
 
-const normalizePort = val => {
+const portValide = val => {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -12,15 +12,15 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const port = portValide(process.env.PORT || '3000');
+application.set('port', port);
 
-const errorHandler = error => {
+const portErreur = error => {
   if (error.syscall !== 'listen') {
     throw error;
   }
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+  const addresse = serveur.address();
+  const bind = typeof addresse === 'string' ? 'pipe ' + addresse : 'port: ' + port;
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges.');
@@ -35,13 +35,13 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const serveur = http.createServer(app);
 
-server.on('error', errorHandler);
-server.on('listening', () => {
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+serveur.on('error', portErreur);
+serveur.on('listening', () => {
+  const addresse = serveur.address();
+  const bind = typeof addresse === 'string' ? 'pipe ' + addresse : 'port ' + port;
   console.log('Listening on ' + bind);
 });
 
-server.listen(port);
+serveur.listen(port);
