@@ -1,31 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const chemin = require('path');
 
+const sauceRouteurs = require('./routeurs/sauce.js');
+const utilisateurRouteurs = require('./routeurs/utilisateurs.js');
+
+// Connection à la base de donnée
 mongoose.connect('mongodb+srv://piiquante:7acYuuceHJs876Kj@cluster0.fviow.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+
+// Echange avec seveur
 const appliExpress = express();
 
 appliExpress.use((req, res, next) => {
-  console.log('Requête reçue !');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
 
-appliExpress.use((req, res, next) => {
-  res.status(201);
-  next();
-});
+appliExpress.use(express.json());
 
-appliExpress.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
+appliExpress.use('/images', express.static(chemin.join(__dirname, 'images')));
 
-appliExpress.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
-});
+appliExpress.use('/api/sauces', sauceRouteurs);
+appliExpress.use('/api/auth', utilisateurRouteurs);
 
 module.exports = appliExpress;

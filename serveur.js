@@ -1,6 +1,7 @@
 const http = require('http');
-const application = require('./applications');
+const appliExpress = require('./applications');
 
+// Connection au serveur
 const portValide = val => {
   const port = parseInt(val, 10);
 
@@ -12,8 +13,9 @@ const portValide = val => {
   }
   return false;
 };
+
 const port = portValide(process.env.PORT || '3000');
-application.set('port', port);
+appliExpress.set('port', port);
 
 const portErreur = error => {
   if (error.syscall !== 'listen') {
@@ -35,7 +37,7 @@ const portErreur = error => {
   }
 };
 
-const serveur = http.createServer(app);
+const serveur = http.createServer(appliExpress);
 
 serveur.on('error', portErreur);
 serveur.on('listening', () => {
