@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const chemin = require('path');
 
-const sauceRouteurs = require('./routeurs/sauce.js');
+const saucesRouteurs = require('./routeurs/sauces.js');
 const utilisateurRouteurs = require('./routeurs/utilisateurs.js');
 
 // Connection à la base de donnée
@@ -27,7 +27,7 @@ appliExpress.use(express.json());
 
 appliExpress.use('/images', express.static(chemin.join(__dirname, 'images')));
 
-appliExpress.use('/api/sauces', sauceRouteurs);
+appliExpress.use('/api/sauces', saucesRouteurs);
 appliExpress.use('/api/auth', utilisateurRouteurs);
 
 module.exports = appliExpress;

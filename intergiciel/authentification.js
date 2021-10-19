@@ -4,10 +4,10 @@ const authentification = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodeurToken = authentification.verify(token, 'P1i6i1q0u2a0n2t1e');
-    const userId = decodeurToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'User ID non valable !';
+    const decoderToken = authentification.verify(token, 'p1I6i-1q0U-2a0n2T1e');
+    const utilisateurId = decoderToken.utilisateurId;
+    if (req.body.utilisateurId && req.body.utilisateurId !== utilisateurId) {
+      throw 'Utilisateur ID non valable !';
     } else {
       next();
     }

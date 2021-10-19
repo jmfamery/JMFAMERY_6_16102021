@@ -2,7 +2,7 @@ const http = require('http');
 const appliExpress = require('./applications');
 
 // Connection au serveur
-const portValide = val => {
+function portValide(val) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -12,7 +12,7 @@ const portValide = val => {
     return port;
   }
   return false;
-};
+}
 
 const port = portValide(process.env.PORT || '3000');
 appliExpress.set('port', port);
