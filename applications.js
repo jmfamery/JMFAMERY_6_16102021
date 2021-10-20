@@ -13,7 +13,7 @@ mongoose.connect('mongodb+srv://piiquante:7acYuuceHJs876Kj@cluster0.fviow.mongod
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
-// Echange avec seveur
+// Echange avec serveur
 const appliExpress = express();
 
 appliExpress.use((req, res, next) => {

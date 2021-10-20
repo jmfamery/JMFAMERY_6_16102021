@@ -31,7 +31,7 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            utilisateurId: utilisateur._id,
+            userId: utilisateur._id,
             token: authentification.sign(
               { utilisateurId: utilisateur._id },
               'p1I6i-1q0U-2a0n2T1e',
