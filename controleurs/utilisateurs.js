@@ -1,7 +1,8 @@
 const cryptage = require('bcrypt');
 const authentification = require('jsonwebtoken');
-
 const Utilisateur = require('../modeles/utilisateurs.js');
+require('dotenv').config();
+const securite = process.env.DB_securite;
 
 // Création d'un utilisateur
 exports.signup = (req, res, next) => {
@@ -34,7 +35,7 @@ exports.login = (req, res, next) => {
             userId: utilisateur._id,
             token: authentification.sign(
               { utilisateurId: utilisateur._id },
-              'p1I6i-1q0U-2a0n2T1e',
+              securite,
               { expiresIn: '24h' }
             )
           });

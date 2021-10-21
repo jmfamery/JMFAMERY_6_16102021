@@ -12,9 +12,9 @@ const sauvegarde = telechargement.diskStorage({
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(' ').join('_');
+    const nom = file.originalname.split(' ').join('_');
     const extension = typeFormat[file.mimetype];
-    callback(null, name + Date.now() + '.' + extension);
+    callback(null, nom + Date.now() + '.' + extension);
   }
 });
 
