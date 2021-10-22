@@ -12,5 +12,6 @@ routeur.put('/:id', authentification, telechargement, SaucesCtrl.modificationSau
 routeur.delete('/:id', authentification, SaucesCtrl.supressionSauce);
 routeur.get('/:id', authentification, SaucesCtrl.envoiUneSauce);
 routeur.get('/', authentification, SaucesCtrl.envoiToutesSauces);
+routeur.post('/:id/like', authentification, SaucesCtrl.noteSauce)
 
 module.exports = routeur;

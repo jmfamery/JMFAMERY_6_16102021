@@ -19,6 +19,21 @@ exports.creationSauce = (req, res, next) => {
 
 // modification d'une Sauce
 exports.modificationSauce = (req, res, next) => {
+  // suppression ancienne image
+  Sauces.findOne({ _id: req.params.id })  
+  .then(Sauces => {
+    const filename = Sauces.imageUrl.split('/images/')[1];
+    sythemeFichier.unlink(`images/${filename}`, function (err) {
+        if (err) {
+          console.log('Ancienne image non supprimée');
+        } {
+          console.log('Ancienne image supprimée');
+        }
+      }
+    )
+  });
+
+  // modification
   const objetSauce = req.file ?
   { 
     ...JSON.parse(req.body.sauce),
@@ -27,6 +42,8 @@ exports.modificationSauce = (req, res, next) => {
   Sauces.updateOne({ _id: req.params.id }, { ...objetSauce, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
     .catch(error => res.status(400).json({ message: error }));
+  console.log("objet ",objetSauce);
+  console.log("req ",req.body.sauce)
 };
 
 // Suppression d'une Sauce
@@ -55,4 +72,24 @@ exports.envoiToutesSauces = (req, res, next) => {
   Sauces.find()
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(400).json({ message: error }));
+};
+
+// Notation de la Sauce (like)
+exports.noteSauce = (req, res, next) => {
+  console.log(req.params.id)
+  
+  // Concatener
+  const objetSauce = req.fil ?   { 
+    ...JSON.parse(req.body.like),
+    likes:req.body.like
+  } : { ...req.body };
+  //
+
+  //objetSauce.likes = req.body.likes
+  //objetSauce.usersLiked = req.body.userId  
+  Sauces.updateOne({ _id: req.params.id }, { ...objetSauce, _id: req.params.id })
+    .then(() => res.status(200).json({message: 'Like enregistre !'}))
+    .catch(error => res.status(400).json({ message: error }));
+  console.log(objetSauce);
+  console.log(req.body)
 };
