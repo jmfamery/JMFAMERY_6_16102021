@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "��#\u0000 \u0000J\u0000M\u0000F\u0000A\u0000M\u0000E\u0000R\u0000Y\u0000_\u00006\u0000_\u00001\u00006\u00001\u00000\u00002\u00000\u00002\u00001\u0000\r\u0000 \u0000",
   "main": "serveur.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,8 +15,16 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.11",
+    "mongoose": "^6.0.12",
     "mongoose-unique-validator": "^3.0.0",
     "multer": "^1.4.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmfamery/JMFAMERY_P6_16102021.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jmfamery/JMFAMERY_P6_16102021/issues"
+  },
+  "homepage": "https://github.com/jmfamery/JMFAMERY_P6_16102021#readme"
 }

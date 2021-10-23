@@ -1,6 +1,6 @@
 const Sauces = require('../modeles/sauces.js');
 const sythemeFichier = require('fs');
-const sauces = require('../modeles/sauces.js');
+const { json } = require('body-parser');
 
 // création d'une Sauce
 exports.creationSauce = (req, res, next) => {
@@ -10,11 +10,11 @@ exports.creationSauce = (req, res, next) => {
     ...objetSauce,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
-    sauce.save()
-    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-    .catch(error => {
-      res.status(400).json({ message: error });
-    });
+  sauce.save()
+  .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+  .catch(error => {
+    res.status(400).json({ message: error });
+  });
 };
 
 // modification d'une Sauce
@@ -23,14 +23,12 @@ exports.modificationSauce = (req, res, next) => {
   Sauces.findOne({ _id: req.params.id })  
   .then(Sauces => {
     const filename = Sauces.imageUrl.split('/images/')[1];
-    sythemeFichier.unlink(`images/${filename}`, function (err) {
-        if (err) {
-          console.log('Ancienne image non supprimée');
+    sythemeFichier.unlink(`images/${filename}`, function (erreur) {
+        if (erreur) {
+          console.log('Ancienne image non supprimée')
         } {
-          console.log('Ancienne image supprimée');
-        }
-      }
-    )
+          console.log('Ancienne image supprimée')}
+    })
   });
 
   // modification
@@ -42,8 +40,6 @@ exports.modificationSauce = (req, res, next) => {
   Sauces.updateOne({ _id: req.params.id }, { ...objetSauce, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
     .catch(error => res.status(400).json({ message: error }));
-  console.log("objet ",objetSauce);
-  console.log("req ",req.body.sauce)
 };
 
 // Suppression d'une Sauce
@@ -74,22 +70,29 @@ exports.envoiToutesSauces = (req, res, next) => {
     .catch(error => res.status(400).json({ message: error }));
 };
 
-// Notation de la Sauce (like)
+// Notation de la Sauce (like & Dislike)
 exports.noteSauce = (req, res, next) => {
-  console.log(req.params.id)
-  
-  // Concatener
-  const objetSauce = req.fil ?   { 
-    ...JSON.parse(req.body.like),
-    likes:req.body.like
-  } : { ...req.body };
-  //
-
-  //objetSauce.likes = req.body.likes
-  //objetSauce.usersLiked = req.body.userId  
-  Sauces.updateOne({ _id: req.params.id }, { ...objetSauce, _id: req.params.id })
-    .then(() => res.status(200).json({message: 'Like enregistre !'}))
-    .catch(error => res.status(400).json({ message: error }));
-  console.log(objetSauce);
-  console.log(req.body)
+  if (req.body.like === 1) {
+    Sauces.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
+      .then((sauce) => res.status(200).json({ message: 'Ajout Like' }))
+      .catch(error => res.status(400).json({ message: error }))
+  } if (req.body.like === -1) {
+    Sauces.updateOne({ _id: req.params.id }, { $inc: { dislikes: (req.body.like++) * -1 }, $push: { usersDisliked: req.body.userId } })
+      .then((sauce) => res.status(200).json({ message: 'Ajout Dislike' }))
+      .catch(error => res.status(400).json({ message: error }))
+    } {
+      Sauces.findOne({ _id: req.params.id })
+        .then(sauce => {
+          if (sauce.usersLiked.includes(req.body.userId)) {
+            Sauces.updateOne({ _id: req.params.id }, { $pull: { usersLiked: req.body.userId }, $inc: { likes: -1 } })
+              .then((sauce) => { res.status(200).json({ message: 'Suppression Like' }) })
+              .catch(error => res.status(400).json({ message: error }))
+          } if (sauce.usersDisliked.includes(req.body.userId)) {
+            Sauces.updateOne({ _id: req.params.id }, { $pull: { usersDisliked: req.body.userId }, $inc: { dislikes: -1 } })
+              .then((sauce) => { res.status(200).json({ message: 'Suppression Dislike' }) })
+              .catch(error => res.status(400).json({ message: error }))
+            }
+        })
+        .catch(error => res.status(400).json({ message: error }))
+    }
 };

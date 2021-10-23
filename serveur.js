@@ -1,7 +1,7 @@
 const http = require('http');
 const appliExpress = require('./applications');
 
-// Connection au serveur
+// Connection du serveur
 function portValide(val) {
   const port = parseInt(val, 10);
 
