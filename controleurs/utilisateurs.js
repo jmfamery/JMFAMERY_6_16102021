@@ -2,22 +2,22 @@ const cryptage = require('bcrypt');
 const authentification = require('jsonwebtoken');
 const Utilisateur = require('../modeles/utilisateurs.js');
 require('dotenv').config();
-const securite = process.env.DB_securite;
+const codeSecurite = process.env.DB_cleSecurite;
 
 // Création d'un utilisateur
 exports.signup = (req, res, next) => {
-    cryptage.hash(req.body.password, 10)
-      .then(hash => {
-        const utilisateur = new Utilisateur({
-          email: req.body.email,
-          password: hash
-        });
-        utilisateur.save()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(400).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  };
+  cryptage.hash(req.body.password, 10)
+    .then(hash => {
+      const utilisateur = new Utilisateur({
+        email: req.body.email,
+        password: hash
+      });
+      utilisateur.save()
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch(error => res.status(400).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+};
 
 // contrôle d'accès d'un utilisateur
 exports.login = (req, res, next) => {
@@ -35,12 +35,12 @@ exports.login = (req, res, next) => {
             userId: utilisateur._id,
             token: authentification.sign(
               { utilisateurId: utilisateur._id },
-              securite,
+              codeSecurite,
               { expiresIn: '24h' }
             )
           });
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ message: error }));
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({ message: error }));
 };

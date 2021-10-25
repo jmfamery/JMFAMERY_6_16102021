@@ -1,12 +1,12 @@
 const authentification = require('jsonwebtoken');
 require('dotenv').config();
-const securite = process.env.DB_securite;
+const codeSecurite = process.env.DB_cleSecurite;
 
 // authentification de l'utilisateur
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decoderToken = authentification.verify(token, securite);
+    const decoderToken = authentification.verify(token, codeSecurite);
     req.utilisateurId = decoderToken.utilisateurId;
     if (!req.utilisateurId) {
       throw 'Utilisateur ID non valable !';

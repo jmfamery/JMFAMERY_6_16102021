@@ -1,6 +1,5 @@
 const Sauces = require('../modeles/sauces.js');
 const sythemeFichier = require('fs');
-const { json } = require('body-parser');
 
 // création d'une Sauce
 exports.creationSauce = (req, res, next) => {
@@ -8,7 +7,11 @@ exports.creationSauce = (req, res, next) => {
   delete objetSauce._id;
   const sauce = new Sauces({
     ...objetSauce,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: '',
+    usersDisliked: ''
   });
   sauce.save()
   .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
