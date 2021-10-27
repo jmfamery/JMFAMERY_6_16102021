@@ -2,7 +2,7 @@ const cryptage = require('bcrypt');
 const authentification = require('jsonwebtoken');
 const Utilisateur = require('../modeles/utilisateurs.js');
 require('dotenv').config();
-const codeSecurite = process.env.DB_cleSecurite;
+const codeSecurite = process.env.cleSecurite;
 
 // Création d'un utilisateur
 exports.signup = (req, res, next) => {

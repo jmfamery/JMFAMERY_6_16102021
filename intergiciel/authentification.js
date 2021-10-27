@@ -1,6 +1,6 @@
 const authentification = require('jsonwebtoken');
 require('dotenv').config();
-const codeSecurite = process.env.DB_cleSecurite;
+const codeSecurite = process.env.cleSecurite;
 
 // authentification de l'utilisateur
 module.exports = (req, res, next) => {
